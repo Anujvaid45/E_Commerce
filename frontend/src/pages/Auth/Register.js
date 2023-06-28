@@ -38,7 +38,7 @@ const Register = () => {
     }
 
     const handleChange = event => {
-        console.log(event.target.value);
+        //console.log(event.target.value);
         setRole(event.target.value);
       };
 
@@ -52,23 +52,24 @@ const Register = () => {
                         
                         type="radio"
                         id="0"
+                        className='radio'
                         name="0"
                         value="0"
                         checked={role === '0'}
                         onChange={handleChange} 
                         />
-                        <label htmlFor="0" style={{paddingRight:'150px'}}>User</label>
+                        <label htmlFor="0" style={{paddingRight:'150px'}} className='label'>User</label>
 
                         <input
                         type="radio"
-                        
+                        className='radio'
                         id="1"
                         name="1"
                         value="1"
                         onChange={handleChange} 
                         checked={role === '1'}
                         />
-                        <label htmlFor="1">Admin</label>
+                        <label htmlFor="1" className='label'>Admin</label>
                     </div>
                 <div className="mb-3">
                         <input type="text" 
