@@ -92,7 +92,7 @@ const jwt = require('jsonwebtoken');
     }
     //token
     const token = await jwt.sign({ _id: user._id }, process.env.SECRET, {
-      expiresIn: "3d",
+      expiresIn: "1d",
     });
     res.status(200).send({
       success: true,

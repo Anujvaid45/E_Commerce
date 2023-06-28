@@ -1,6 +1,6 @@
 const express = require('express')
 const {isAdmin,requireSignIn} = require('../middleware/authMiddleware.js')
-const { createProductController, getProductController, getSingleProductController, productPhotoController, deleteProductController, updateProductController } = require('../controllers/productController.js')
+const { createProductController, getProductController, getSingleProductController, productPhotoController, deleteProductController, updateProductController, productFiltersController, searchProductController, relatedProductController } = require('../controllers/productController.js')
 const router = express.Router()
 const formidable = require('express-formidable')
 
@@ -20,5 +20,14 @@ router.get('/product-photo/:pid',productPhotoController)
 
 //delete product
 router.delete('/product-delete/:pid',deleteProductController)
+
+//filter product
+router.post("/product-filters", productFiltersController);
+
+//search product
+router.get("/search/:keyword", searchProductController)
+
+//similar product
+router.get("/related-product/:pid/:cid",relatedProductController)
 
 module.exports = router

@@ -34,7 +34,7 @@ const createProductController = async(req,res)=>{
         })
     } catch (error) {
         console.log(error)
-        res.status(500).send({
+        res.status(500).send({ 
             success:false,
             error,
             message:"Error in creating product"
@@ -91,6 +91,7 @@ const updateProductController = async(req,res)=>{
 //get all products
 const getProductController = async(req,res)=>{
     try {
+        
         const products = await productModel.find({}).populate('category').select('-photo').limit(12).sort({createdAt:-1})
         res.status(200).send({
             success:true,
@@ -168,4 +169,71 @@ const deleteProductController = async(req,res)=>{
 
 }
 
-module.exports = {createProductController,getProductController,getSingleProductController,productPhotoController,deleteProductController,updateProductController}
+// filters
+ const productFiltersController = async (req, res) => {
+    try {
+      const { checked, radio } = req.body;
+      let args = {};
+      if (checked.length > 0) args.category = checked;
+      if (radio.length) args.price = { $gte: radio[0], $lte: radio[1] };
+      const products = await productModel.find(args);
+      res.status(200).send({
+        success: true,
+        products,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(400).send({
+        success: false,
+        message: "Error WHile Filtering Products",
+        error,
+      });
+    }
+  };
+
+  const searchProductController = async(req,res)=>{
+    try {
+        const {keyword} = req.params
+        const result = await productModel.find({
+            $or:[
+                {name:{$regex :keyword,$options: "i"}},
+                {description:{$regex :keyword,$options: "i"}}
+            ],
+        })
+        .select("-photo");
+        res.json(result);    
+    } catch (error) {
+        console.log(error);
+      res.status(400).send({
+        success: false,
+        message: "Error While Searching Products",
+        error,
+      });
+    }
+
+  }
+
+  //similar products
+  const relatedProductController = async(req,res) =>{
+    try {
+        const {pid,cid} =  req.params
+        const products =  await productModel.find({
+            category:cid,
+            _id:{$ne:pid} //ne means not include and we are not including that product which is currently being displayed
+        }).select("-photo").limit(4).populate("category")
+        res.status(200).send({
+            success:true,
+            products,
+        })
+        
+    } catch (error) {
+        console.log(error);
+      res.status(400).send({
+        success: false,
+        message: "Error While Showing related Products",
+        error,
+      });
+    }
+  }
+
+module.exports = {createProductController,getProductController,getSingleProductController,productPhotoController,deleteProductController,updateProductController,productFiltersController,searchProductController,relatedProductController}
