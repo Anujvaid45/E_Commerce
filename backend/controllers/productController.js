@@ -1,6 +1,18 @@
 const slugify  = require('slugify')
 const productModel = require('../models/productModel.js')
+const orderModel = require('../models/orderModel.js')
+require('dotenv').config()
 const fs = require('fs')
+var braintree = require("braintree");
+
+//payment gateway
+var gateway = new braintree.BraintreeGateway({
+    environment: braintree.Environment.Sandbox,
+    merchantId: process.env.BRAINTREE_MERCHANT_ID,
+    publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+    privateKey: process.env.BRAINTREE_PRIVATE_KEY,
+  });
+
 const createProductController = async(req,res)=>{
     try {
         const {name,slug,description,price,category,quantity,shipping} = req.fields
@@ -236,4 +248,95 @@ const deleteProductController = async(req,res)=>{
     }
   }
 
-module.exports = {createProductController,getProductController,getSingleProductController,productPhotoController,deleteProductController,updateProductController,productFiltersController,searchProductController,relatedProductController}
+  //count product
+  const productCountController = async(req,res)=>{
+    try {
+        const total = await productModel.find({}).estimatedDocumentCount()
+        res.status(200).send({
+            success:true,
+            total,
+        })
+    } catch (error) {
+        console.log(error);
+      res.status(400).send({
+        success: false,
+        message: "Error While Counting Products",
+        error,
+      });
+    }
+  }
+
+  //product list per page
+  const productListController = async(req,res)=>{
+    try {
+        const perPage = 6
+        const page = req.params.page ? req.params.page: 1 
+        const products = await productModel.find({}).select("-photo").skip((page-1) *perPage).limit(perPage).sort({createdAt:-1})
+        res.status(200).send({
+            success:true,
+            products,
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+          success: false,
+          message: "Error While Displaying Products per page ",
+          error,
+        });
+    }
+  }
+
+  const braintreeTokenController = async (req, res) => {
+    try {
+      gateway.clientToken.generate({}, function (err, response) {
+        if (err) {
+          res.status(500).send(err);
+        } else {
+          res.send(response);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const braintreePaymentController = async(req,res)=>{
+    try {
+        const {cart,nonce} = req.body
+        let total = 0
+        cart.map((i) => {
+         total += i.price
+        });
+
+        let newTransaction = gateway.transaction.sale({
+            amount:total,
+            paymentMethodNonce: nonce,
+            options:{
+                submitForSettlement:true
+            }
+        },
+        function(error,result){
+            if(result){
+                const order = new orderModel({
+                    products:cart,
+                    payment:result,
+                    buyer:req.user._id,
+                }).save()
+                res.json({ok:true})
+            }else{
+                res.status(500).send(error)
+            }
+        }
+        )
+
+        
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+          success: false,
+          message: "Error While Processing Payments",
+          error,
+        });
+    }
+
+  }
+module.exports = {createProductController,getProductController,getSingleProductController,productPhotoController,deleteProductController,updateProductController,productFiltersController,searchProductController,relatedProductController,productCountController,productListController,braintreeTokenController,braintreePaymentController}
