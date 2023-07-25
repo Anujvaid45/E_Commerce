@@ -5,14 +5,48 @@ import toast from "react-hot-toast";
 import {Checkbox,Radio} from 'antd'
 import { Prices } from "../components/Prices";
 import { useNavigate } from "react-router-dom";
-//import { Link } from "react-router-dom";
+import { useCart } from "../context/cart";
 const HomePage = () => {
     // eslint-disable-next-line 
     const [products,setProducts] = useState([])
     const [categories,setCategories] = useState([])
     const [checked,setChecked] = useState([])
     const [radio, setRadio] = useState([]);
+    const [total,setTotal] = useState(0)
+    const [page,setPage] = useState(1)
+    const [loading,setLoading] = useState(false)
     const navigate = useNavigate()
+    const [cart,setCart] = useCart()
+
+    //get Total count of products
+    const getTotal = async()=>{
+      try {
+        const {data} = await axios.get('/api/v1/product/product-count')
+        setTotal(data?.total)
+      } catch (error) {
+        console.log(error)
+      toast.error('Something went wrong in getting category')
+      }
+    }
+
+    useEffect(() => {
+      if (page === 1) return;
+      loadMore();
+      // eslint-disable-next-line
+    }, [page]);
+    //load more
+    const loadMore = async () => {
+      try {
+        setLoading(true);
+        const { data } = await axios.get(`/api/v1/product/product-list/${page}`);
+        setLoading(false);
+        setProducts([...products, ...data?.products]);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    };
+  
 
     //get all categories
   const getAllcategory = async (req, res) => {
@@ -30,15 +64,19 @@ const HomePage = () => {
 
   useEffect(() => {
     getAllcategory();
+    getTotal();
   }, []);
 
 
       //getall products
   const getAllProducts = async () => {
     try {
-      const { data } = await axios.get("/api/v1/product/get-product");
+      setLoading(true);
+      const { data } = await axios.get(`/api/v1/product/product-list/${page}`);
+      setLoading(false);
       setProducts(data.products);
     } catch (error) {
+      setLoading(false);
       console.log(error);
       toast.error("Someething Went Wrong");
     }
@@ -57,6 +95,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (!checked.length || !radio.length) getAllProducts();
+    // eslint-disable-next-line
   }, [checked.length, radio.length]);
 
   useEffect(() => {
@@ -113,21 +152,52 @@ const HomePage = () => {
 
                             {products?.map((p) => (
 
-                <div className="card m-2" style={{ width: "18rem" }}>
+                <div className="card m-2" style={{ width: "18rem"}}>
                   <img
                     src={`/api/v1/product/product-photo/${p._id}`}
                     className="card-img-top"
                     alt={p.name}
+                    onClick={()=>navigate(`/product/${p.slug}`)}
+                    style={{ cursor:'pointer'}}
                   />
                   <div className="card-body">
                     <h5 className="card-title">{p.name}</h5>
                     <p className="card-text">{p.description}</p>
-                    <p className="card-text">Price of product: <b>{p.price}</b></p>
+                    <p className="card-text">Price of product: <b>{p.price.toLocaleString("en-US", {
+        style: "currency",
+        currency: "INR",
+      })}</b></p>
                     <button className="btn btn-primary ms-1" onClick={()=>navigate(`/product/${p.slug}`)}>More Details</button>
-                    <button className="btn btn-secondary ms-1">Add To Cart</button>
+                    <button
+                    className="btn btn-secondary ms-1"
+                    onClick={() => {
+                      setCart([...cart, p]);
+                      localStorage.setItem(
+                        "cart",
+                        JSON.stringify([...cart, p])
+                      );
+                      toast.success("Item Added to cart");
+                    }}
+                  >
+                    ADD TO CART
+                  </button>
+
                   </div>
                 </div>
             ))}
+                        </div>
+                        <div className="m-2 p-3">
+                          {products && products.length < total &&(
+                            < button className="btn btn-warning"
+                              onClick={(e)=>{
+                                e.preventDefault();
+                                setPage(page+1)
+                              }}
+
+                            >
+                              {loading? "loading...":"loadmore"}
+                            </button>
+                          )}
                         </div>
                     </div>
                 </div>

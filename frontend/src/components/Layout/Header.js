@@ -3,13 +3,17 @@ import {FiShoppingCart} from 'react-icons/fi'
 import { useAuth } from "../../context/auth";
 import { toast } from 'react-toastify';
 import SearchInput from "../Form/SearchInput";
+import { useCart } from "../../context/cart";
+import { Badge } from "antd";
 const Header = () => {
 
   const [auth,setAuth] = useAuth()
+  const [cart] = useCart()
   const handleLogout = () =>{
     setAuth({
       ...auth,user:null,token:''
     })
+
     localStorage.removeItem('auth');
     setTimeout(()=>{ toast.success('Logout Successful')},100)
    
@@ -38,11 +42,6 @@ const Header = () => {
               <li className="nav-item">
                 <NavLink to="/" className="nav-link ">
                   Home
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink to="/category" className="nav-link ">
-                  Category
                 </NavLink>
               </li>
               {!auth?.user ?(
@@ -94,10 +93,12 @@ const Header = () => {
                   </li>
                 </>
               )}
-              <li className="nav-item">
-                <NavLink to="/cart" className="nav-link">
-                  Cart (0)
-                </NavLink>
+               <li className="nav-item" style={{fontSize:'40px'}}>
+                <Badge count={cart?.length} showZero>
+                  <NavLink to="/cart" className="nav-link" style={{color:'solidBlack',fontSize:'large'}}>
+                    Cart
+                  </NavLink>
+                </Badge>
               </li>
             </ul>
           </div>
