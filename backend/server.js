@@ -9,13 +9,13 @@ const categoryRoutes = require('./routes/categoryRoutes.js')
 const productRoutes = require('./routes/productRoutes.js')
 const app = express()
 
-// const corsOrigin ={
-//     origin: ["https://e-commerce-frontend-nine-alpha.vercel.app"],
-//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-//     credentials: true,
-//     optionsSuccessStatus: 204
-// }
-app.use(cors());
+const corsOrigin ={
+    origin: ["https://e-commerce-frontend-nine-alpha.vercel.app"],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204
+}
+app.use(cors(corsOrigin));
 
 //middleware
 app.use(express.json())
