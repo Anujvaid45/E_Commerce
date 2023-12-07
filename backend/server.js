@@ -24,7 +24,8 @@ app.use(morgan('dev'))
 //routes
 app.use('/api/v1/auth',AuthRoutes)
 app.use('/api/v1/category',categoryRoutes)
-app.use('/api/v1/product',productRoutes)
+// app.use('/api/v1/product',productRoutes)
+ app.use('https://e-commerce-backend-lovat.vercel.app//product',productRoutes)
 
 
 //rest api
