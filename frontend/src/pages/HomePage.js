@@ -72,7 +72,7 @@ const HomePage = () => {
   const getAllProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`/api/v1/product/product-list/${page}`);
+      const { data } = await axios.get(`/https://e-commerce-backend-lovat.vercel.app/product/product-list/${page}`);
       setLoading(false);
       setProducts(data.products);
     } catch (error) {
