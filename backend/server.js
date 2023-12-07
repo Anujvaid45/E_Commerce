@@ -8,6 +8,8 @@ const categoryRoutes = require('./routes/categoryRoutes.js')
 const productRoutes = require('./routes/productRoutes.js')
 const app = express()
 
+
+
 //middleware
 app.use(express.json())
 app.use(morgan('dev'))
