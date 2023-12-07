@@ -10,7 +10,7 @@ const app = express()
 
 app.use(cors(
     {
-        origin: ["https://e-commerce-frontend-ebon.vercel.app/"],
+        origin: ["https://e-commerce-frontend-ebon.vercel.app"],
         methods: ["POST", "GET"],
         credentials: true
     }
