@@ -28,7 +28,7 @@ function App() {
   return (
     <BrowserRouter>
     <Routes>
-      <Route path='https://e-commerce-eight-mu.vercel.app/' element={<HomePage />}/>
+      <Route path='/' element={<HomePage />}/>
       <Route path='/product/:slug' element={<ProductDetails />}/>
       <Route path='/cart' element={<CartPage/>}/>
       <Route path="/dashboard" element={<PrivateRoute />}>
