@@ -12,8 +12,9 @@ const app = express()
 app.use(cors(
     {
         origin: ["https://e-commerce-frontend-nine-alpha.vercel.app"],
-        methods: ["POST", "GET"],
-        credentials: true
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+        credentials: true,
+        optionsSuccessStatus: 204,
     }
 ));
 
