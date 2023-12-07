@@ -8,6 +8,14 @@ const categoryRoutes = require('./routes/categoryRoutes.js')
 const productRoutes = require('./routes/productRoutes.js')
 const app = express()
 
+app.use(cors(
+    {
+        origin: ["https://e-commerce-frontend-ebon.vercel.app/"],
+        methods: ["POST", "GET"],
+        credentials: true
+    }
+));
+
 //middleware
 app.use(express.json())
 app.use(morgan('dev'))
