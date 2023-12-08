@@ -18,8 +18,6 @@ const HomePage = () => {
     const navigate = useNavigate()
     const [cart,setCart] = useCart()
 
-    axios.defaults.withCredentials = true;
-
     //get Total count of products
     const getTotal = async()=>{
       try {
@@ -40,7 +38,7 @@ const HomePage = () => {
     const loadMore = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get(`/product/product-list/${page}`);
+        const { data } = await axios.get(`/api/v1/product/product-list/${page}`);
         setLoading(false);
         setProducts([...products, ...data?.products]);
       } catch (error) {
@@ -74,7 +72,7 @@ const HomePage = () => {
   const getAllProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`/product/product-list/${page}`);
+      const { data } = await axios.get(`/api/v1/product/product-list/${page}`);
       setLoading(false);
       setProducts(data.products);
     } catch (error) {
