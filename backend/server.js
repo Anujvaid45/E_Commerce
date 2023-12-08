@@ -37,13 +37,17 @@ app.get('/',(req,res)=>{
 //connect to db
 // mongoose.connect(process.env.MONG_URI)
 mongoose.connect('mongodb+srv://anujvaid:Anujvaid%402003@e-commerce.ltbpaqk.mongodb.net/?retryWrites=true&w=majority')
-.then(()=>{
-    //listen for requests
-    app.listen(process.env.PORT,()=>{
-        console.log(`connected to db&listening on port ${process.env.PORT}`.bgCyan.white)
-    })
+// .then(()=>{
+//     //listen for requests
+//     app.listen(process.env.PORT,()=>{
+//         console.log(`connected to db&listening on port ${process.env.PORT}`.bgCyan.white)
+//     })
 
-})
-.catch((err)=>{
-    console.log(`${err}`.bgRed.white)
+// })
+// .catch((err)=>{
+//     console.log(`${err}`.bgRed.white)
+// })
+
+app.listen(process.env.PORT, () => {
+    console.log("Server is Running")
 })
