@@ -16,10 +16,12 @@ const Register = () => {
     const[role,setRole] = useState("")
     const navigate = useNavigate()
 
+    axios.defaults.withCredentials = true;
+
     const handleSubmit = async (e) =>{
         e.preventDefault();
         try {
-            const res = await axios.post('/api/v1/auth/register',
+            const res = await axios.post('https://e-commerce-nu-pearl.vercel.app/api/v1/auth/register',
             {name,email,password,phone,address,answer,role}
             );
             if(res.data.success){

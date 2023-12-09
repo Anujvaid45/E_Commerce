@@ -10,7 +10,7 @@ const productRoutes = require('./routes/productRoutes.js')
 const app = express()
 
 const corsOrigin ={
-    origin: ["https://e-commerce-anuj-vaids-projects.vercel.app"],
+    origin: ["https://e-commerce-nu-pearl.vercel.app"],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204
