@@ -59,7 +59,7 @@ const CreateCategory = () => {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        `/api/v1/category/update-category/${selected._id}`,
+        `https://e-commerce-backend-pl30.onrender.com/api/v1/category/update-category/${selected._id}`,
         { name: updatedName }
       );
       if (data.success) {
