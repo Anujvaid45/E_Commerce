@@ -61,7 +61,7 @@ const Register = () => {
                         />
                         <label htmlFor="0" style={{paddingRight:'150px'}} className='label'>User</label>
 
-                        <input
+                        {/* <input
                         type="radio"
                         className='radio'
                         id="1"
@@ -70,7 +70,7 @@ const Register = () => {
                         onChange={handleChange} 
                         checked={role === '1'}
                         />
-                        <label htmlFor="1" className='label'>Admin</label>
+                        <label htmlFor="1" className='label'>Admin</label> */}
                     </div>
                 <div className="mb-3">
                         <input type="text" 
