@@ -17,7 +17,7 @@ const CreateCategory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const res = await axios.post('/api/v1/category/create-category', { name })
+      const res = await axios.post('https://e-commerce-backend-pl30.onrender.com/api/v1/category/create-category', { name })
       if (res.data.success) {
         toast.success(`category ${name} is created`)
         getAllcategory();
@@ -39,7 +39,7 @@ const CreateCategory = () => {
   //get all categories
   const getAllcategory = async (req, res) => {
     try {
-      const res = await axios.get('/api/v1/category/get-category')
+      const res = await axios.get('https://e-commerce-backend-pl30.onrender.com/api/v1/category/get-category')
       if (res.data.success) {
         setCategories(res.data.category)
       }
@@ -82,7 +82,7 @@ const CreateCategory = () => {
       const confirmBox = window.confirm(`Are You Sure You Want To Delete this Category?`)
       if (confirmBox === true) 
       {
-        const res = await axios.delete(`/api/v1/category/delete-category/${pId}`)
+        const res = await axios.delete(`https://e-commerce-backend-pl30.onrender.com/api/v1/category/delete-category/${pId}`)
         if (res.data.success) 
         {
           toast.success(`category is deleted`);
