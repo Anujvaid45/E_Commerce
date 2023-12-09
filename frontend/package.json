@@ -1,5 +1,5 @@
 {
-  "proxy": "https://e-commerce-backend-pl30.onrender.com",
+  "proxy": "http://localhost:8080,https://e-commerce-backend-pl30.onrender.com",
   "name": "frontend",
   "version": "0.1.0",
   "private": true,

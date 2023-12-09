@@ -9,13 +9,13 @@ const categoryRoutes = require('./routes/categoryRoutes.js')
 const productRoutes = require('./routes/productRoutes.js')
 const app = express()
 
-const corsOrigin ={
-    origin: ["https://e-commerce-nu-pearl.vercel.app"],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-    optionsSuccessStatus: 204
-}
-app.use(cors(corsOrigin));
+// const corsOrigin ={
+//     origin: ["https://e-commerce-nu-pearl.vercel.app"],
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//     credentials: true,
+//     optionsSuccessStatus: 204
+// }
+app.use(cors());
 
 //middleware
 app.use(express.json())

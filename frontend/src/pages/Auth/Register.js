@@ -16,7 +16,6 @@ const Register = () => {
     const[role,setRole] = useState("")
     const navigate = useNavigate()
 
-    axios.defaults.withCredentials = true;
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
