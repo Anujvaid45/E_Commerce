@@ -21,7 +21,7 @@ const HomePage = () => {
     //get Total count of products
     const getTotal = async()=>{
       try {
-        const {data} = await axios.get('/api/v1/product/product-count')
+        const {data} = await axios.get('https://e-commerce-backend-pl30.onrender.com/api/v1/product/product-count')
         setTotal(data?.total)
       } catch (error) {
         console.log(error)
@@ -38,7 +38,7 @@ const HomePage = () => {
     const loadMore = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get(`/api/v1/product/product-list/${page}`);
+        const { data } = await axios.get(`https://e-commerce-backend-pl30.onrender.com/api/v1/product/product-list/${page}`);
         setLoading(false);
         setProducts([...products, ...data?.products]);
       } catch (error) {
@@ -51,7 +51,7 @@ const HomePage = () => {
     //get all categories
   const getAllcategory = async (req, res) => {
     try {
-      const res = await axios.get('/api/v1/category/get-category')
+      const res = await axios.get('https://e-commerce-backend-pl30.onrender.com/api/v1/category/get-category')
       if (res.data.success) {
         setCategories(res.data.category)
       }
@@ -72,7 +72,7 @@ const HomePage = () => {
   const getAllProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`/api/v1/product/product-list/${page}`);
+      const { data } = await axios.get(`https://e-commerce-backend-pl30.onrender.com/api/v1/product/product-list/${page}`);
       setLoading(false);
       setProducts(data.products);
     } catch (error) {
@@ -106,7 +106,7 @@ const HomePage = () => {
   //get filtered product
   const filterProduct = async () => {
     try {
-      const { data } = await axios.post("/api/v1/product/product-filters", {
+      const { data } = await axios.post("https://e-commerce-backend-pl30.onrender.com/api/v1/product/product-filters", {
         checked,
         radio,
       });
