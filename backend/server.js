@@ -24,7 +24,7 @@ app.use(morgan('dev'))
 //routes
 app.use('/api/v1/auth',AuthRoutes)
 
-app.use('/api/v1/category',categoryRoutes)
+app.use('https://e-commerce-backend-pl30.onrender.com/api/v1/category',categoryRoutes)
 app.use('/api/v1/product',productRoutes)
 
 
