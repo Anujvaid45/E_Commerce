@@ -113,7 +113,7 @@ const AdminOrders = () => {
                     <div className="row mb-2 p-3 card flex-row" key={p._id}>
                       <div className="col-md-4">
                         <img
-                          src={`/api/v1/product/product-photo/${p._id}`}
+                          src={`https://e-commerce-backend-pl30.onrender.com/api/v1/product/product-photo/${p._id}`}
                           className="card-img-top"
                           alt={p.name}
                           width="100px"

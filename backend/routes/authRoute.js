@@ -34,7 +34,7 @@ router.put('/profile',requireSignIn,updateProfileController)
 router.get('/orders',requireSignIn,getOrdersController)
 
 //all orders data for admin
-router.get('all-orders',requireSignIn,isAdmin,getAllOrdersController)
+router.get('/all-orders',requireSignIn,isAdmin,getAllOrdersController)
 
 //order status
 router.put("/order-status/:orderId",requireSignIn,isAdmin,orderStatusController)
